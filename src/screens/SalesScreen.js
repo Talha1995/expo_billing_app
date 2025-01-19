@@ -92,6 +92,7 @@ const SalesScreen = () => {
       Alert.alert("Error", "Failed to generate sales report");
     }
   };
+  console.log(sales);
 
   const renderSaleItem = ({ item }) => (
     <TouchableOpacity
@@ -102,7 +103,7 @@ const SalesScreen = () => {
     >
       <View style={styles.saleHeader}>
         <View style={styles.saleInfo}>
-          <Text style={styles.saleId}>Bill #{item.id}</Text>
+          <Text style={styles.saleId}>Bill #{item.billId}</Text>
           <Text style={styles.saleDate}>
             {new Date(item.date).toLocaleDateString("en-IN", {
               day: "2-digit",
@@ -192,28 +193,28 @@ const SalesScreen = () => {
           activeOpacity={1}
           onPress={() => setDatePickerVisible(false)}
         >
-          <View style={styles.modalContent}>
-            <View style={styles.datePickerHeader}>
-              <Text style={styles.datePickerTitle}>
+          {/* <View style={styles.modalContent}> */}
+          {/* <View style={styles.datePickerHeader}> */}
+          {/* <Text style={styles.datePickerTitle}>
                 Select {selectedDateType === "from" ? "Start" : "End"} Date
-              </Text>
-              <TouchableOpacity onPress={() => setDatePickerVisible(false)}>
-                <Ionicons name="close" size={24} color="#666" />
-              </TouchableOpacity>
-            </View>
-            <DateTimePicker
-              value={
-                selectedDateType === "from"
-                  ? dateRange.fromDate
-                  : dateRange.toDate
-              }
-              mode="date"
-              display={Platform.OS === "ios" ? "spinner" : "default"}
-              onChange={handleDateChange}
-              maximumDate={new Date()}
-              style={styles.datePicker}
-            />
-          </View>
+              </Text> */}
+          {/* <TouchableOpacity onPress={() => setDatePickerVisible(false)}>
+              <Ionicons name="close" size={24} color="#666" />
+            </TouchableOpacity>
+          </View> */}
+          <DateTimePicker
+            value={
+              selectedDateType === "from"
+                ? dateRange.fromDate
+                : dateRange.toDate
+            }
+            mode="date"
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            onChange={handleDateChange}
+            maximumDate={new Date()}
+            style={styles.datePicker}
+          />
+          {/* </View> */}
         </TouchableOpacity>
       </Modal>
     </SafeAreaView>
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
   },
   dateButtonText: {
     marginLeft: 8,
-    fontSize: 14,
+    fontSize: 12,
     color: "#333",
   },
   dateRangeSeparator: {

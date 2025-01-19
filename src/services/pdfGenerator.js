@@ -5,6 +5,7 @@ import { Platform } from "react-native";
 
 const generateSalesHTML = (reportData) => {
   const { sales, fromDate, toDate, totalAmount } = reportData;
+  console.log(sales);
 
   return `
     <html>
@@ -13,43 +14,46 @@ const generateSalesHTML = (reportData) => {
         <style>
           body {
             font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
+            padding: 10px;
+            max-width: 100%;
+            margin: 0;
+            font-size: 10px;
           }
           .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
           }
           .store-name {
-            font-size: 24px;
+            font-size: 14px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
           }
           .date-range {
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
           }
           .bill-section {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 4px;
+            padding: 8px;
+            page-break-inside: avoid;
           }
           .bill-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
             border-bottom: 1px solid #eee;
           }
           table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            font-size: 9px;
           }
           th, td {
-            padding: 8px;
+            padding: 4px;
             text-align: left;
             border-bottom: 1px solid #eee;
           }
@@ -60,21 +64,31 @@ const generateSalesHTML = (reportData) => {
           .bill-total {
             text-align: right;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 5px;
+            font-size: 10px;
           }
           .grand-total {
             text-align: right;
-            font-size: 18px;
+            font-size: 12px;
             font-weight: bold;
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 15px;
+            padding-top: 10px;
             border-top: 2px solid #333;
           }
           .footer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 20px;
             color: #666;
-            font-size: 14px;
+            font-size: 8px;
+          }
+          @media print {
+            .bill-section {
+              page-break-inside: avoid;
+            }
+            @page {
+              margin: 10mm;
+              size: A4;
+            }
           }
         </style>
       </head>
@@ -91,16 +105,16 @@ const generateSalesHTML = (reportData) => {
             (sale) => `
           <div class="bill-section">
             <div class="bill-header">
-              <div>Bill #${sale.id}</div>
+              <div>Bill #${sale.billId}</div>
               <div>${new Date(sale.date).toLocaleDateString()}</div>
             </div>
             <table>
               <thead>
                 <tr>
                   <th>Item</th>
-                  <th>Qty</th>
-                  <th>Price</th>
-                  <th>Total</th>
+                  <th style="width:40px">Qty</th>
+                  <th style="width:60px">Price</th>
+                  <th style="width:70px">Total</th>
                 </tr>
               </thead>
               <tbody>

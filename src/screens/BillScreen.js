@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { saveBill } from "../utils/database";
 import PDFService from "../services/pdfGenerator";
 const BillScreen = ({ route, navigation }) => {
   const { items } = route.params;
@@ -29,7 +30,7 @@ const BillScreen = ({ route, navigation }) => {
           minute: "2-digit",
         }),
       };
-
+      await saveBill(billData);
       await PDFService.generateBillPDF(billData);
       Alert.alert("Success", "Bill PDF generated successfully");
     } catch (error) {
