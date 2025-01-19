@@ -545,7 +545,7 @@ const HomeScreen = ({ navigation }) => {
               onPress={handleDeleteSelected}
             >
               <Ionicons name="trash" size={20} color="#FF5252" />
-              <Text style={styles.deleteSelectedText}>Delete Selected</Text>
+              {/* <Text style={styles.deleteSelectedText}>Delete Selected</Text> */}
             </TouchableOpacity>
           )}
           <TouchableOpacity
@@ -553,7 +553,7 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => handleEditItem({})}
           >
             <Ionicons name="add-circle" size={24} color="#4CAF50" />
-            <Text style={styles.addNewButtonText}>Add Item</Text>
+            {/* <Text style={styles.addNewButtonText}>Add Item</Text> */}
           </TouchableOpacity>
         </View>
       </View>

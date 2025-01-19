@@ -48,7 +48,9 @@ const SalesScreen = () => {
   };
 
   const handleDateChange = (event, selectedDate) => {
-    setDatePickerVisible(Platform.OS === "ios");
+    if (Platform.OS === "android") {
+      setDatePickerVisible(false);
+    }
     if (selectedDate) {
       setDateRange((prev) => ({
         ...prev,
@@ -116,7 +118,7 @@ const SalesScreen = () => {
 
       <View style={styles.saleItems}>
         {item.items.map((saleItem, index) => (
-          <View key={index} style={styles.saleItemRow}>
+          <View key={saleItem.id} style={styles.saleItemRow}>
             <Text style={styles.saleItemName} numberOfLines={1}>
               {saleItem.name}
             </Text>
@@ -179,17 +181,41 @@ const SalesScreen = () => {
         }
       />
 
-      {datePickerVisible && (
-        <DateTimePicker
-          value={
-            selectedDateType === "from" ? dateRange.fromDate : dateRange.toDate
-          }
-          mode="date"
-          display={Platform.OS === "ios" ? "spinner" : "default"}
-          onChange={handleDateChange}
-          maximumDate={new Date()}
-        />
-      )}
+      <Modal
+        visible={datePickerVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setDatePickerVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setDatePickerVisible(false)}
+        >
+          <View style={styles.modalContent}>
+            <View style={styles.datePickerHeader}>
+              <Text style={styles.datePickerTitle}>
+                Select {selectedDateType === "from" ? "Start" : "End"} Date
+              </Text>
+              <TouchableOpacity onPress={() => setDatePickerVisible(false)}>
+                <Ionicons name="close" size={24} color="#666" />
+              </TouchableOpacity>
+            </View>
+            <DateTimePicker
+              value={
+                selectedDateType === "from"
+                  ? dateRange.fromDate
+                  : dateRange.toDate
+              }
+              mode="date"
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              onChange={handleDateChange}
+              maximumDate={new Date()}
+              style={styles.datePicker}
+            />
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -311,6 +337,35 @@ const styles = StyleSheet.create({
     color: "#666",
     marginTop: 16,
     textAlign: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+    width: "90%",
+    maxWidth: 400,
+  },
+  datePickerHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  datePickerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  datePicker: {
+    width: "100%",
+    backgroundColor: "#fff",
   },
 });
 
