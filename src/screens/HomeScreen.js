@@ -24,9 +24,6 @@ const ItemCard = memo(({ item, isSelected, onPress, onLongPress }) => (
     activeOpacity={0.7}
   >
     <View style={styles.cardContent}>
-      <View style={styles.cardImagePlaceholder}>
-        <Ionicons name="cube-outline" size={32} color="#ccc" />
-      </View>
       <View style={styles.cardDetails}>
         <Text style={styles.itemName} numberOfLines={2}>
           {item.name}
