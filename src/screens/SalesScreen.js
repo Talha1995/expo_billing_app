@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -25,9 +26,11 @@ const SalesScreen = () => {
     toDate: new Date(),
   });
 
-  useEffect(() => {
-    loadSales();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadSales();
+    }, [])
+  );
 
   const loadSales = async () => {
     try {
@@ -70,7 +73,10 @@ const SalesScreen = () => {
 
       const filteredSales = sales.filter((sale) => {
         const saleDate = new Date(sale.date);
-        return saleDate >= fromDate && saleDate <= toDate;
+        return (
+          saleDate.setHours(0, 0, 0, 0) >= fromDate.setHours(0, 0, 0, 0) &&
+          saleDate.setHours(0, 0, 0, 0) <= toDate.setHours(0, 0, 0, 0)
+        );
       });
 
       if (filteredSales.length === 0) {
@@ -114,7 +120,7 @@ const SalesScreen = () => {
             })}
           </Text>
         </View>
-        <Text style={styles.saleAmount}>₹{item.total.toFixed(2)}</Text>
+        <Text style={styles.saleAmount}>Rs. {item.total.toFixed(2)}</Text>
       </View>
 
       <View style={styles.saleItems}>
@@ -125,7 +131,7 @@ const SalesScreen = () => {
             </Text>
             <Text style={styles.saleItemQuantity}>x{saleItem.quantity}</Text>
             <Text style={styles.saleItemPrice}>
-              ₹{(saleItem.price * saleItem.quantity).toFixed(2)}
+              Rs. {(saleItem.price * saleItem.quantity).toFixed(2)}
             </Text>
           </View>
         ))}

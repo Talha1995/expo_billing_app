@@ -22,13 +22,7 @@ const BillScreen = ({ route, navigation }) => {
       const billData = {
         items: items,
         total: calculateTotal(),
-        date: new Date().toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        date: new Date(),
       };
       await saveBill(billData);
       await PDFService.generateBillPDF(billData);
@@ -69,10 +63,10 @@ const BillScreen = ({ route, navigation }) => {
                 {item.quantity}
               </Text>
               <Text style={[styles.itemText, styles.priceCol]}>
-                ₹{item.price.toFixed(2)}
+                {item.price.toFixed(2)}
               </Text>
               <Text style={[styles.itemText, styles.totalCol]}>
-                ₹{(item.price * item.quantity).toFixed(2)}
+                {(item.price * item.quantity).toFixed(2)}
               </Text>
             </View>
           ))}
@@ -80,7 +74,9 @@ const BillScreen = ({ route, navigation }) => {
 
         <View style={styles.totalSection}>
           <Text style={styles.totalLabel}>Total Amount:</Text>
-          <Text style={styles.totalAmount}>₹{calculateTotal().toFixed(2)}</Text>
+          <Text style={styles.totalAmount}>
+            Rs. {calculateTotal().toFixed(2)}
+          </Text>
         </View>
       </ScrollView>
 

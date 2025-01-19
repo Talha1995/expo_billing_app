@@ -124,8 +124,8 @@ const generateSalesHTML = (reportData) => {
                   <tr>
                     <td>${item.name}</td>
                     <td>${item.quantity}</td>
-                    <td>₹${item.price.toFixed(2)}</td>
-                    <td>₹${(item.price * item.quantity).toFixed(2)}</td>
+                    <td>${item.price.toFixed(2)}</td>
+                    <td>${(item.price * item.quantity).toFixed(2)}</td>
                   </tr>
                 `
                   )
@@ -133,7 +133,7 @@ const generateSalesHTML = (reportData) => {
               </tbody>
             </table>
             <div class="bill-total">
-              Bill Total: ₹${sale.total.toFixed(2)}
+              Bill Total: Rs.  ${sale.total.toFixed(2)}
             </div>
           </div>
         `
@@ -141,7 +141,7 @@ const generateSalesHTML = (reportData) => {
           .join("")}
 
         <div class="grand-total">
-          Total Sales: ₹${totalAmount.toFixed(2)}
+          Total Sales: Rs.  ${totalAmount.toFixed(2)}
         </div>
 
         <div class="footer">
@@ -256,13 +256,13 @@ const generateBillHTML = (billData) => {
               <div class="item-row">
                 <span class="quantity">${item.quantity}</span>
                 <span class="item-name">${item.name}</span>
-                <span class="price">₹${(item.price * item.quantity).toFixed(
+                <span class="price">${(item.price * item.quantity).toFixed(
                   2
                 )}</span>
               </div>
               <div class="item-row" style="font-size: 10px; color: #666;">
                 <span class="quantity"></span>
-                <span class="item-name">@ ₹${item.price.toFixed(2)}</span>
+                <span class="item-name">@ ${item.price.toFixed(2)}</span>
                 <span class="price"></span>
               </div>
             </div>
@@ -274,22 +274,22 @@ const generateBillHTML = (billData) => {
         <div class="subtotal">
           <div class="item-row">
             <span>Subtotal:</span>
-            <span>₹${billData.total.toFixed(2)}</span>
+            <span>Rs.  ${billData.total.toFixed(2)}</span>
           </div>
           <div class="item-row">
             <span>CGST (2.5%):</span>
-            <span>₹${(billData.total * 0.025).toFixed(2)}</span>
+            <span>Rs.  ${(billData.total * 0.025).toFixed(2)}</span>
           </div>
           <div class="item-row">
             <span>SGST (2.5%):</span>
-            <span>₹${(billData.total * 0.025).toFixed(2)}</span>
+            <span>Rs.  ${(billData.total * 0.025).toFixed(2)}</span>
           </div>
         </div>
 
         <div class="total">
           <div class="item-row">
             <span>TOTAL:</span>
-            <span>₹${(billData.total * 1.05).toFixed(2)}</span>
+            <span>Rs.  ${(billData.total * 1.05).toFixed(2)}</span>
           </div>
         </div>
 
