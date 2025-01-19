@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -25,9 +26,11 @@ const SalesScreen = () => {
     toDate: new Date(),
   });
 
-  useEffect(() => {
-    loadSales();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadSales();
+    }, [])
+  );
 
   const loadSales = async () => {
     try {
@@ -48,7 +51,9 @@ const SalesScreen = () => {
   };
 
   const handleDateChange = (event, selectedDate) => {
-    setDatePickerVisible(Platform.OS === "ios");
+    if (Platform.OS === "android") {
+      setDatePickerVisible(false);
+    }
     if (selectedDate) {
       setDateRange((prev) => ({
         ...prev,
@@ -68,7 +73,10 @@ const SalesScreen = () => {
 
       const filteredSales = sales.filter((sale) => {
         const saleDate = new Date(sale.date);
-        return saleDate >= fromDate && saleDate <= toDate;
+        return (
+          saleDate.setHours(0, 0, 0, 0) >= fromDate.setHours(0, 0, 0, 0) &&
+          saleDate.setHours(0, 0, 0, 0) <= toDate.setHours(0, 0, 0, 0)
+        );
       });
 
       if (filteredSales.length === 0) {
@@ -90,6 +98,7 @@ const SalesScreen = () => {
       Alert.alert("Error", "Failed to generate sales report");
     }
   };
+  console.log(sales);
 
   const renderSaleItem = ({ item }) => (
     <TouchableOpacity
@@ -100,7 +109,7 @@ const SalesScreen = () => {
     >
       <View style={styles.saleHeader}>
         <View style={styles.saleInfo}>
-          <Text style={styles.saleId}>Bill #{item.id}</Text>
+          <Text style={styles.saleId}>Bill #{item.billId}</Text>
           <Text style={styles.saleDate}>
             {new Date(item.date).toLocaleDateString("en-IN", {
               day: "2-digit",
@@ -111,18 +120,18 @@ const SalesScreen = () => {
             })}
           </Text>
         </View>
-        <Text style={styles.saleAmount}>₹{item.total.toFixed(2)}</Text>
+        <Text style={styles.saleAmount}>Rs. {item.total.toFixed(2)}</Text>
       </View>
 
       <View style={styles.saleItems}>
         {item.items.map((saleItem, index) => (
-          <View key={index} style={styles.saleItemRow}>
+          <View key={saleItem.id} style={styles.saleItemRow}>
             <Text style={styles.saleItemName} numberOfLines={1}>
               {saleItem.name}
             </Text>
             <Text style={styles.saleItemQuantity}>x{saleItem.quantity}</Text>
             <Text style={styles.saleItemPrice}>
-              ₹{(saleItem.price * saleItem.quantity).toFixed(2)}
+              Rs. {(saleItem.price * saleItem.quantity).toFixed(2)}
             </Text>
           </View>
         ))}
@@ -179,17 +188,41 @@ const SalesScreen = () => {
         }
       />
 
-      {datePickerVisible && (
-        <DateTimePicker
-          value={
-            selectedDateType === "from" ? dateRange.fromDate : dateRange.toDate
-          }
-          mode="date"
-          display={Platform.OS === "ios" ? "spinner" : "default"}
-          onChange={handleDateChange}
-          maximumDate={new Date()}
-        />
-      )}
+      <Modal
+        visible={datePickerVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setDatePickerVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setDatePickerVisible(false)}
+        >
+          {/* <View style={styles.modalContent}> */}
+          {/* <View style={styles.datePickerHeader}> */}
+          {/* <Text style={styles.datePickerTitle}>
+                Select {selectedDateType === "from" ? "Start" : "End"} Date
+              </Text> */}
+          {/* <TouchableOpacity onPress={() => setDatePickerVisible(false)}>
+              <Ionicons name="close" size={24} color="#666" />
+            </TouchableOpacity>
+          </View> */}
+          <DateTimePicker
+            value={
+              selectedDateType === "from"
+                ? dateRange.fromDate
+                : dateRange.toDate
+            }
+            mode="date"
+            display={Platform.OS === "ios" ? "spinner" : "default"}
+            onChange={handleDateChange}
+            maximumDate={new Date()}
+            style={styles.datePicker}
+          />
+          {/* </View> */}
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -223,7 +256,7 @@ const styles = StyleSheet.create({
   },
   dateButtonText: {
     marginLeft: 8,
-    fontSize: 14,
+    fontSize: 12,
     color: "#333",
   },
   dateRangeSeparator: {
@@ -311,6 +344,35 @@ const styles = StyleSheet.create({
     color: "#666",
     marginTop: 16,
     textAlign: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+    width: "90%",
+    maxWidth: 400,
+  },
+  datePickerHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  datePickerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  datePicker: {
+    width: "100%",
+    backgroundColor: "#fff",
   },
 });
 
