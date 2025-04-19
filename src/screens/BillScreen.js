@@ -75,7 +75,7 @@ const BillScreen = ({ route, navigation }) => {
         <View style={styles.totalSection}>
           <Text style={styles.totalLabel}>Total Amount:</Text>
           <Text style={styles.totalAmount}>
-            Rs. {calculateTotal().toFixed(2)}
+            € {calculateTotal().toFixed(2)}
           </Text>
         </View>
       </ScrollView>

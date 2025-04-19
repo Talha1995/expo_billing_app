@@ -5,7 +5,6 @@ import { Platform } from "react-native";
 
 const generateSalesHTML = (reportData) => {
   const { sales, fromDate, toDate, totalAmount } = reportData;
-  console.log(sales);
 
   return `
     <html>
@@ -133,7 +132,7 @@ const generateSalesHTML = (reportData) => {
               </tbody>
             </table>
             <div class="bill-total">
-              Bill Total: Rs.  ${sale.total.toFixed(2)}
+              Bill Total: € ${sale.total.toFixed(2)}
             </div>
           </div>
         `
@@ -141,7 +140,7 @@ const generateSalesHTML = (reportData) => {
           .join("")}
 
         <div class="grand-total">
-          Total Sales: Rs.  ${totalAmount.toFixed(2)}
+          Total Sales: € ${totalAmount.toFixed(2)}
         </div>
 
         <div class="footer">
@@ -274,22 +273,22 @@ const generateBillHTML = (billData) => {
         <div class="subtotal">
           <div class="item-row">
             <span>Subtotal:</span>
-            <span>Rs.  ${billData.total.toFixed(2)}</span>
+            <span>€ ${billData.total.toFixed(2)}</span>
           </div>
-          <div class="item-row">
-            <span>CGST (2.5%):</span>
-            <span>Rs.  ${(billData.total * 0.025).toFixed(2)}</span>
-          </div>
-          <div class="item-row">
-            <span>SGST (2.5%):</span>
-            <span>Rs.  ${(billData.total * 0.025).toFixed(2)}</span>
-          </div>
+          // <div class="item-row">
+          //   <span>CGST (2.5%):</span>
+          //   <span>€ ${(billData.total * 0.025).toFixed(2)}</span>
+          // </div>
+          // <div class="item-row">
+          //   <span>SGST (2.5%):</span>
+          //   <span>€ ${(billData.total * 0.025).toFixed(2)}</span>
+          // </div>
         </div>
 
         <div class="total">
           <div class="item-row">
             <span>TOTAL:</span>
-            <span>Rs.  ${(billData.total * 1.05).toFixed(2)}</span>
+            <span>€ ${billData.total}</span>
           </div>
         </div>
 
@@ -312,7 +311,6 @@ class PDFService {
       const html = generateBillHTML(billData);
       return await this.generateAndSharePDF(html, "Share Bill PDF");
     } catch (error) {
-      console.error("Error in generateBillPDF:", error);
       throw error;
     }
   }
@@ -326,7 +324,6 @@ class PDFService {
       const html = generateSalesHTML(reportData);
       return await this.generateAndSharePDF(html, "Share Sales Report PDF");
     } catch (error) {
-      console.error("Error in generateSalesReport:", error);
       throw error;
     }
   }
@@ -349,7 +346,6 @@ class PDFService {
 
       return uri;
     } catch (error) {
-      console.error("Error generating PDF:", error);
       throw error;
     }
   }

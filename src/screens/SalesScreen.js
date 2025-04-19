@@ -120,7 +120,7 @@ const SalesScreen = () => {
             })}
           </Text>
         </View>
-        <Text style={styles.saleAmount}>Rs. {item.total.toFixed(2)}</Text>
+        <Text style={styles.saleAmount}>€ {item.total.toFixed(2)}</Text>
       </View>
 
       <View style={styles.saleItems}>
@@ -131,7 +131,7 @@ const SalesScreen = () => {
             </Text>
             <Text style={styles.saleItemQuantity}>x{saleItem.quantity}</Text>
             <Text style={styles.saleItemPrice}>
-              Rs. {(saleItem.price * saleItem.quantity).toFixed(2)}
+              € {(saleItem.price * saleItem.quantity).toFixed(2)}
             </Text>
           </View>
         ))}

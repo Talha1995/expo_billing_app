@@ -28,7 +28,7 @@ const ItemCard = memo(({ item, isSelected, onPress, onLongPress }) => (
         <Text style={styles.itemName} numberOfLines={2}>
           {item.name}
         </Text>
-        <Text style={styles.itemPrice}>Rs. {item.price.toFixed(2)}</Text>
+        <Text style={styles.itemPrice}>€ {item.price.toFixed(2)}</Text>
       </View>
       {isSelected && (
         <View style={styles.quantityBadge}>
@@ -63,7 +63,7 @@ const ManageItemCard = memo(
               {item.name}
             </Text>
             <Text style={styles.manageItemPrice}>
-              Rs. {item.price.toFixed(2)}
+              € {item.price.toFixed(2)}
             </Text>
           </View>
         </View>
@@ -254,7 +254,7 @@ const QuantityEditModal = memo(
             >
               <Text style={styles.modalTitle}>Select Quantity</Text>
               <Text style={styles.itemName}>{item?.name}</Text>
-              <Text style={styles.itemPrice}>Rs. {item?.price.toFixed(2)}</Text>
+              <Text style={styles.itemPrice}>€ {item?.price.toFixed(2)}</Text>
 
               <View style={styles.quantityControls}>
                 <TouchableOpacity
@@ -515,7 +515,7 @@ const HomeScreen = ({ navigation }) => {
                 {Object.keys(selectedItems).length} items selected
               </Text>
               <Text style={styles.totalAmount}>
-                Total: Rs. {calculateTotal().toFixed(2)}
+                Total: € {calculateTotal().toFixed(2)}
               </Text>
             </View>
             <View style={styles.generateBillAction}>

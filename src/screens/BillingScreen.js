@@ -34,7 +34,7 @@ const BillingScreen = ({ route, navigation }) => {
       items: selectedItems,
       total: calculateTotal(),
       date: new Date(),
-      billId: Date.now().toString(),
+      billId: new Date.now().toString(),
     };
 
     try {
@@ -55,7 +55,7 @@ const BillingScreen = ({ route, navigation }) => {
     <View style={styles.itemRow}>
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemQuantity}>x{item.quantity}</Text>
-      <Text style={styles.itemPrice}>Rs. {item.price * item.quantity}</Text>
+      <Text style={styles.itemPrice}>€ {item.price * item.quantity}</Text>
     </View>
   );
 
@@ -80,9 +80,7 @@ const BillingScreen = ({ route, navigation }) => {
 
       <View style={styles.totalContainer}>
         <Text style={styles.totalLabel}>Total Amount:</Text>
-        <Text style={styles.totalAmount}>
-          Rs. {calculateTotal().toFixed(2)}
-        </Text>
+        <Text style={styles.totalAmount}>€ {calculateTotal().toFixed(2)}</Text>
       </View>
 
       <Button title="Generate Bill" onPress={generateBill} />
